@@ -1,0 +1,49 @@
+﻿<Window x:Class="MementoPro.Views.Windows.RegWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+        xmlns:controls="clr-namespace:MementoPro.Controls"
+        mc:Ignorable="d"
+        Title="Регистрация"
+        SizeToContent="WidthAndHeight"
+        Style="{StaticResource WindowFontStyle}"
+        x:Name="RegWindowInstance"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewmodels:RegWindowModel/>
+    </Window.DataContext>
+    
+    <StackPanel Margin="{StaticResource AllSidesThickness}">
+        <controls:CompanyLogoAndName/>
+
+        <StackPanel Margin="{StaticResource TopThickness}">
+            <GroupBox Header="Логин">
+                <TextBox Text="{Binding Login}"
+                         Margin="{StaticResource AllSidesThickness}"/>
+            </GroupBox>
+
+            <GroupBox Header="Пароль"
+                      Margin="{StaticResource TopThickness}">
+                <PasswordBox x:Name="PasswordBox"
+                             Margin="{StaticResource AllSidesThickness}"
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
+            </GroupBox>
+
+            <GroupBox Header="Подтверждение пароля"
+                      Margin="{StaticResource TopThickness}">
+                <PasswordBox x:Name="ConfirmationPasswordBox"
+                             Margin="{StaticResource AllSidesThickness}"
+                             PasswordChanged="ConfirmationPasswordBox_PasswordChanged"/>
+            </GroupBox>
+        </StackPanel>
+
+        <Button Content="Зарегистрироваться"
+                Style="{StaticResource ButtonStyle}"
+                Margin="{StaticResource TopThickness}"
+                Command="{Binding RegisterCommand}"
+                CommandParameter="{Binding ElementName=RegWindowInstance}"/>
+    </StackPanel>
+</Window>

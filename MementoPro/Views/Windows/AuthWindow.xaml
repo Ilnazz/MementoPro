@@ -1,0 +1,49 @@
+﻿<Window x:Class="MementoPro.Views.Windows.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+        xmlns:controls="clr-namespace:MementoPro.Controls"
+        mc:Ignorable="d"
+        Title="Авторизация"
+        SizeToContent="WidthAndHeight"
+        Style="{StaticResource WindowFontStyle}"
+        x:Name="AuthWindowInstance"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewmodels:AuthWindowModel/>
+    </Window.DataContext>
+
+    <StackPanel Margin="{StaticResource AllSidesThickness}">
+        <controls:CompanyLogoAndName/>
+
+        <StackPanel Margin="{StaticResource TopThickness}">
+            <GroupBox Header="Логин">
+                <TextBox Text="{Binding Login}"
+                         Margin="{StaticResource AllSidesThickness}"/>
+            </GroupBox>
+
+            <GroupBox Header="Пароль"
+                      Margin="{StaticResource TopThickness}">
+                <PasswordBox Margin="{StaticResource AllSidesThickness}"
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
+            </GroupBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    Margin="{StaticResource TopThickness}">
+            <Button Content="Зарегистрироваться"
+                    Style="{StaticResource ButtonStyle}"
+                    Margin="{StaticResource RightThickness}"
+                    Command="{Binding GoToRegWindowCommand}"
+                    CommandParameter="{Binding ElementName=AuthWindowInstance}"/>
+            <Button Content="Войти"
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding AuthorizeCommand}"
+                    CommandParameter="{Binding ElementName=AuthWindowInstance}"/>
+        </StackPanel>
+
+    </StackPanel>
+</Window>
