@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="MementoPro.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:controls="clr-namespace:MementoPro.Controls"
+             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+             d:DataContext="{d:DesignInstance viewmodels:MainVM}">
+    <Grid Margin="{StaticResource AllSidesThickness}"
+          Width="1000"
+          Height="600">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <controls:CompanyLogoAndName/>
+            <ContentControl Content="{Binding UserMenuVM}"
+                            HorizontalAlignment="Right"/>
+        </DockPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding NavigationButtonsVisibility}">
+            <Border Background="#ececec"
+                    CornerRadius="2.5"
+                    Padding="2.5"
+                    Width="225"
+                    Height="225"
+                    Margin="0 0 50 0">
+                <Button BorderThickness="0"
+                        Background="Transparent"
+                        Cursor="Hand"
+                        Command="{Binding OpenPersonalRegFormCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/Resources/Images/person.png"
+                                   Width="50"
+                                   Height="50"/>
+                            <TextBlock Text="Личное посещение"
+                                       FontSize="18"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Border>
+
+            <Border Background="#ececec"
+                    CornerRadius="2.5"
+                    Padding="2.5"
+                    Width="225"
+                    Height="225">
+                <Button BorderThickness="0"
+                        Background="Transparent"
+                        Cursor="Hand"
+                        Command="{Binding OpenGroupRegFormCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/Resources/Images/person_group.png"
+                                   Width="50"
+                                   Height="50"/>
+                            <TextBlock Text="Групповое посещение"
+                                       FontSize="18"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Border>
+        </StackPanel>
+
+        <ContentControl Grid.Row="1"
+                        Content="{Binding CurrentVM}"/>
+    </Grid>
+</UserControl>

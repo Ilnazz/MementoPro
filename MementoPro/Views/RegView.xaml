@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="MementoPro.Views.RegView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:MementoPro.Controls"
+             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewmodels:RegVM}">
+    <StackPanel Margin="{StaticResource AllSidesThickness}"
+                Width="310">
+        <controls:CompanyLogoAndName/>
+
+        <StackPanel Margin="{StaticResource TopThickness}">
+            <GroupBox Header="Логин">
+                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource TextBoxInErrorStyle}"
+                         MaxLength="50"/>
+            </GroupBox>
+
+            <GroupBox Header="Пароль"
+                      Margin="{StaticResource TopThickness}">
+                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource TextBoxInErrorStyle}"
+                         MaxLength="50"/>
+            </GroupBox>
+
+            <GroupBox Header="Подтверждение пароля"
+                      Margin="{StaticResource TopThickness}">
+                <TextBox Text="{Binding ConfirmationPassword, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource TextBoxInErrorStyle}"
+                         MaxLength="50"/>
+            </GroupBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="{StaticResource TopThickness}">
+            <Button Content="К окну входа"
+                    Style="{StaticResource ButtonStyle}"
+                    Margin="{StaticResource RightThickness}"
+                    Command="{Binding GoToAuthWindowCommand}"/>
+            <Button Content="Зарегистрироваться"
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding RegisterCommand}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

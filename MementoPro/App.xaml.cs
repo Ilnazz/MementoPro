@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MementoPro.ViewModels;
+using MementoPro.ViewModels.Base;
+using MementoPro.Views.Windows;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,6 +16,7 @@ namespace MementoPro
     /// </summary>
     public partial class App : Application
     {
-        
+        private void App_Startup(object sender, StartupEventArgs e)
+            => new WindowView(new AuthVM()).Show();
     }
 }

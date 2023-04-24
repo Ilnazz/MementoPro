@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MementoPro.ViewModels.Base;
+using MementoPro.Views;
 using MementoPro.Views.Windows;
 using Models;
 using System.Windows;
@@ -19,9 +21,12 @@ public partial class UserMenuVM : ObservableObject
         {
             Session.CurrentUser = null;
 
-            new AuthWindow().Show();
-            Session.MainWindowInstance!.Close();
-            Session.MainWindowInstance = null;
+            new WindowView(new AuthVM()).Show();
+            _parent.CloseWindow();
         }
     }
+    
+    private WindowViewModelBase _parent = null!;
+    public UserMenuVM(WindowViewModelBase parent)
+        => _parent = parent;
 }

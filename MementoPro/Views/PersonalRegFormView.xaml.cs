@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MementoPro
+namespace MementoPro.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для RegFormView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PersonalRegFormView : UserControl
     {
-        public MainWindow()
+        public PersonalRegFormView()
         {
             InitializeComponent();
         }

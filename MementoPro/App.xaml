@@ -1,71 +1,85 @@
 ﻿<Application x:Class="MementoPro.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MementoPro"
-             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
-             xmlns:windows="clr-namespace:MementoPro.Views.Windows"
-             Startup="">
+             Startup="App_Startup">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+                                    xmlns:views="clr-namespace:MementoPro.Views">
+                    <DataTemplate DataType="{x:Type viewmodels:AuthVM}">
+                        <views:AuthView/>
+                    </DataTemplate>
 
-        <BitmapImage UriSource="Resources/Images/company_logo.png" x:Key="CompanyLogo"/>
-        <BitmapImage UriSource="Resources/Images/user_photo_placeholder.png" x:Key="UserPhotoPlaceholder"/>
+                    <DataTemplate DataType="{x:Type viewmodels:RegVM}">
+                        <views:RegView/>
+                    </DataTemplate>
 
-        <Style TargetType="Page" x:Key="PageFontStyle">
-            <Setter Property="FontFamily" Value="Verdana"/>
-            <Setter Property="FontSize" Value="16"/>
-        </Style>
+                    <DataTemplate DataType="{x:Type viewmodels:MainVM}">
+                        <views:MainView/>
+                    </DataTemplate>
 
-        <Style TargetType="Window" x:Key="WindowFontStyle">
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="FontSize" Value="16"/>
-        </Style>
+                    <DataTemplate DataType="{x:Type viewmodels:UserMenuVM}">
+                        <views:UserMenuView/>
+                    </DataTemplate>
 
-        <Thickness x:Key="LeftThickness" Left="10"/>
-        <Thickness x:Key="TopThickness" Top="10"/>
-        <Thickness x:Key="RightThickness" Right="10"/>
-        <Thickness x:Key="BottomThickness" Bottom="10"/>
+                    <DataTemplate DataType="{x:Type viewmodels:PersonalRegFormVM}">
+                        <views:PersonalRegFormView/>
+                    </DataTemplate>
+                    
+                </ResourceDictionary>
 
-        <Thickness x:Key="LeftTopThickness" Left="10" Top="10"/>
-        <Thickness x:Key="LeftBottomThickness" Left="10" Bottom="10"/>
-        <Thickness x:Key="RightTopThickness" Right="10" Top="10"/>
-        <Thickness x:Key="RightBottomThickness" Right="10" Bottom="10"/>
+                <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-        <Thickness x:Key="AllSidesThickness" Left="10" Top="10" Right="10" Bottom="10"/>
+                    <Style TargetType="Window" x:Key="WindowFontStyle">
+                        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+                        <Setter Property="FontSize" Value="16"/>
+                    </Style>
 
-        <Style TargetType="Button" x:Key="ButtonStyle">
-            <Setter Property="Padding" Value="5 2.5"/>
-        </Style>
+                    <Style TargetType="UserControl" x:Key="UserControlFontStyle">
+                        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+                        <Setter Property="FontSize" Value="16"/>
+                    </Style>
 
-        <Style x:Key="TextBoxErrorStyle" TargetType="{x:Type TextBox}">
-            <Style.Setters>
-                <Setter Property="Validation.ErrorTemplate">
-                    <Setter.Value>
-                        <ControlTemplate>
-                            <AdornedElementPlaceholder/>
-                            
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style.Setters>
-            
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip"
-                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                                            Path=(Validation.Errors)/ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        
-        
+                    <Thickness x:Key="LeftThickness" Left="10"/>
+                    <Thickness x:Key="TopThickness" Top="10"/>
+                    <Thickness x:Key="RightThickness" Right="10"/>
+                    <Thickness x:Key="BottomThickness" Bottom="10"/>
 
-        <ControlTemplate x:Key="ValidationTemplate">
-            <StackPanel>
-                <AdornedElementPlaceholder/>
-                <TextBlock Text="{Binding RelativeSource={RelativeSource Self},
-                                          Path=(Validation.Errors)/ErrorContent}"/>
-            </StackPanel>
-        </ControlTemplate>
+                    <Thickness x:Key="LeftTopThickness" Left="10" Top="10"/>
+                    <Thickness x:Key="LeftBottomThickness" Left="10" Bottom="10"/>
+                    <Thickness x:Key="RightTopThickness" Right="10" Top="10"/>
+                    <Thickness x:Key="RightBottomThickness" Right="10" Bottom="10"/>
 
+                    <Thickness x:Key="AllSidesThickness" Left="10" Top="10" Right="10" Bottom="10"/>
+
+                    <Style TargetType="Button" x:Key="ButtonStyle">
+                        <Setter Property="Padding" Value="5 2.5"/>
+                    </Style>
+
+                    <Style TargetType="TextBox" x:Key="TextBoxInErrorStyle">
+                        <Setter Property="Margin" Value="10 10 10 22.5"/>
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <AdornedElementPlaceholder x:Name="Placeholder"/>
+                                        <TextBlock Text="{Binding ElementName=Placeholder,
+                                                                    Path=AdornedElement.(Validation.Errors)/ErrorContent}"
+                                                   Margin="0 2.5 0 0"
+                                                   FontSize="14"
+                                                   Foreground="Red"/>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

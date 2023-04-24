@@ -1,23 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MementoPro.Views
+namespace MementoPro.Views;
+public sealed partial class UserMenuView : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для UserMenuView.xaml
-    /// </summary>
-    public partial class UserMenuView : UserControl
+    public UserMenuView()
     {
-        public UserMenuView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void MenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            MenuBox.Visibility
-                = MenuBox.Visibility == Visibility.Collapsed
-                    ? Visibility.Visible : Visibility.Collapsed;
-        }
+    private void MenuButton_Click(object sender, RoutedEventArgs e)
+    {
+        MenuBox.Visibility
+            = MenuBox.Visibility == Visibility.Collapsed
+                ? Visibility.Visible : Visibility.Collapsed;
     }
 }

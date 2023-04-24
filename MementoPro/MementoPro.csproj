@@ -10,13 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="App.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\Images\company_logo.png" />
-    <None Remove="Resources\Images\user.png" />
-    <None Remove="Resources\Images\user_photo_placeholder.png" />
+    <None Remove="Resources\Images\file.png" />
+    <None Remove="Resources\Images\person.png" />
+    <None Remove="Resources\Images\person_group.png" />
+    <None Remove="Resources\Images\upload-file.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,9 +21,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\company_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\file.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\person.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\person_group.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\upload-file.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\user_photo_placeholder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="DataTypes\Enums\" />
-    <Folder Include="Views\Dialogs\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,18 +55,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\Images\company_logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Images\user.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Images\user_photo_placeholder.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
 
 </Project>

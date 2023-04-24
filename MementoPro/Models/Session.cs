@@ -9,8 +9,6 @@ public static class Session
 
     public static User? CurrentUser { get; set; }
 
-    public static MainWindow? MainWindowInstance { get; set; }
-
     static Session()
     {
         Db.Users.Load();

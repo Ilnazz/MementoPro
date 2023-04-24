@@ -3,13 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
              mc:Ignorable="d">
-
-    <UserControl.DataContext>
-        <viewmodels:UserMenuVM/>
-    </UserControl.DataContext>
-    
     <StackPanel>
         <Button x:Name="MenuButton"
                 Background="Transparent"
@@ -18,7 +12,7 @@
                 Click="MenuButton_Click">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{StaticResource UserPhotoPlaceholder}"
+                    <Image Source="/Resources/Images/user_photo_placeholder.png"
                            Width="25"
                            Height="25"
                            Margin="{StaticResource RightThickness}"/>

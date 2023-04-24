@@ -13,7 +13,6 @@ public partial class User
                 return "Гость";
 
             var employee = Employees.First();
-
             return $"{employee.FirstName} {employee.LastName} {employee.Patronymic}";
         }
     }
