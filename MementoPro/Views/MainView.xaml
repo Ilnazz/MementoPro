@@ -6,10 +6,11 @@
              mc:Ignorable="d"
              xmlns:controls="clr-namespace:MementoPro.Controls"
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
-             d:DataContext="{d:DesignInstance viewmodels:MainVM}">
-    <Grid Margin="{StaticResource AllSidesThickness}"
-          Width="1000"
-          Height="600">
+             d:DataContext="{d:DesignInstance viewmodels:MainVM}"
+             Width="1000"
+             Height="600">
+    
+    <Grid Margin="{StaticResource AllSidesThickness}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

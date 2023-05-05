@@ -7,7 +7,6 @@
         xmlns:viewmodelsbase="clr-namespace:MementoPro.ViewModels.Base"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
-        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance viewmodelsbase:WindowViewModelBase}"
         Style="{StaticResource WindowFontStyle}">

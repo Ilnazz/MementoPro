@@ -14,6 +14,7 @@
     <None Remove="Resources\Images\person.png" />
     <None Remove="Resources\Images\person_group.png" />
     <None Remove="Resources\Images\upload-file.png" />
+    <None Remove="Views\PersonalRegFormView.xaml~RF4aad10.TMP" />
   </ItemGroup>
 
   <ItemGroup>

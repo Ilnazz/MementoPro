@@ -6,7 +6,13 @@
              xmlns:controls="clr-namespace:MementoPro.Controls"
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance viewmodels:AuthVM}">
+             d:DataContext="{d:DesignInstance viewmodels:AuthVM}"
+             Style="{StaticResource UserControlFontStyle}">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxInErrorStyle}"/>
+    </UserControl.Resources>
+
     <StackPanel Margin="{StaticResource AllSidesThickness}"
                 Width="310">
         <controls:CompanyLogoAndName/>
@@ -14,14 +20,12 @@
         <StackPanel Margin="{StaticResource TopThickness}">
             <GroupBox Header="Логин">
                 <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource TextBoxInErrorStyle}"
                          MaxLength="50"/>
             </GroupBox>
 
             <GroupBox Header="Пароль"
                       Margin="{StaticResource TopThickness}">
                 <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource TextBoxInErrorStyle}"
                          MaxLength="50"/>
             </GroupBox>
         </StackPanel>
