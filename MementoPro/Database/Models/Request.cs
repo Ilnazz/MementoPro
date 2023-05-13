@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database.Models;
 
 public partial class Request
 {
@@ -17,11 +17,15 @@ public partial class Request
 
     public DateTime DesiredExpirationDate { get; set; }
 
-    public string VisitPurpose { get; set; } = null!;
+    public int VisitPurposeId { get; set; }
 
     public int? UserId { get; set; }
 
+    public int EmployeeId { get; set; }
+
     public virtual Division Division { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
 
     public virtual ICollection<RequestRejectionReason> RequestRejectionReasons { get; } = new List<RequestRejectionReason>();
 
@@ -30,6 +34,8 @@ public partial class Request
     public virtual RequestType RequestType { get; set; } = null!;
 
     public virtual User? User { get; set; }
+
+    public virtual VisitPurpose VisitPurpose { get; set; } = null!;
 
     public virtual ICollection<Visitor> Visitors { get; } = new List<Visitor>();
 }

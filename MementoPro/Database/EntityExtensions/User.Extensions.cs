@@ -1,7 +1,6 @@
-﻿using Models;
-using System.Linq;
+﻿using System.Linq;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database.Models;
 
 public partial class User
 {
@@ -13,9 +12,11 @@ public partial class User
                 return "Гость";
 
             var employee = Employees.First();
-            return $"{employee.FirstName} {employee.LastName} {employee.Patronymic}";
+            return $"{employee.LastName} {employee.FirstName} {employee.Patronymic}";
         }
     }
+
+    public Employee? Employee => Employees.FirstOrDefault();
 
     public bool IsEmployee() => Employees.Any() == true;
 

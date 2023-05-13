@@ -25,10 +25,13 @@
                         <views:UserMenuView/>
                     </DataTemplate>
 
+                    <DataTemplate DataType="{x:Type viewmodels:ChooseRegFormVM}">
+                        <views:ChooseRegFormView/>
+                    </DataTemplate>
+
                     <DataTemplate DataType="{x:Type viewmodels:PersonalRegFormVM}">
                         <views:PersonalRegFormView/>
                     </DataTemplate>
-                    
                 </ResourceDictionary>
 
                 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -73,7 +76,7 @@
                         <Setter Property="Foreground" Value="Gray"/>
                     </Style>
 
-                    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+                    <!--<Style x:Key="TextBoxStyle" TargetType="TextBox">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
@@ -92,9 +95,9 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                    </Style>
+                    </Style>-->
 
-                    <Style x:Key="TextBoxInErrorStyle" BasedOn="{StaticResource TextBoxStyle}" TargetType="TextBox">
+                    <Style x:Key="TextBoxInErrorStyle" TargetType="TextBox">
                         <Setter Property="Margin" Value="10 10 10 22.5"/>
                         <Setter Property="Validation.ErrorTemplate">
                             <Setter.Value>
@@ -111,7 +114,17 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                    
+
+                    <Style x:Key="ErrorInTooltipStyle" TargetType="FrameworkElement">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="ToolTip"
+                                        Value="{Binding RelativeSource={RelativeSource Self},
+                                                        Path=(Validation.Errors)/ErrorContent}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

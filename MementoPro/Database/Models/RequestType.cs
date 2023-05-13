@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database.Models;
 
-public partial class RequestStatus
+public partial class RequestType
 {
     public int Id { get; set; }
 

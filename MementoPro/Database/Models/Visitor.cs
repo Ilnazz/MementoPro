@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database.Models;
 
 public partial class Visitor
 {
@@ -34,6 +34,8 @@ public partial class Visitor
     public byte[]? Photo { get; set; }
 
     public byte[] PassportScan { get; set; } = null!;
+
+    public string PassportScanFileName { get; set; } = null!;
 
     public virtual Organization? Organization { get; set; }
 

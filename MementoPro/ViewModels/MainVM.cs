@@ -12,27 +12,39 @@ public sealed partial class MainVM : WindowViewModelBase
     public UserMenuVM UserMenuVM { get; set; }
 
     [ObservableProperty]
-    private ObservableObject? _currentVM;
+    private ViewModelBase _currentVM;
 
     [ObservableProperty]
-    private Visibility _navigationButtonsVisibility;
+    private string _currentViewTitle;
 
     #endregion
 
     #region [ Commands ]
 
     [RelayCommand]
-    private void OpenPersonalRegForm()
+    private void GoToPersonalRegForm()
     {
-        NavigationButtonsVisibility = Visibility.Collapsed;
-        CurrentVM = new PersonalRegFormVM();
+        CurrentVM = new PersonalRegFormVM(this);
+        GoBackCommand.NotifyCanExecuteChanged();
     }
 
     [RelayCommand]
-    private void OpenGroupRegForm()
+    private void GoToGroupRegForm()
     {
-        //CurrentVM = new RegFormVM();
+        //CurrentVM = new PersonalRegFormVM();
+        GoBackCommand.NotifyCanExecuteChanged();
     }
+
+    [RelayCommand(CanExecute = nameof(CanGoBack))]
+    public void GoBack()
+    {
+        if (CurrentVM.RequestClose() == false)
+            return;
+
+        CurrentVM = new ChooseRegFormVM(this);
+        GoBackCommand.NotifyCanExecuteChanged();
+    }
+    private bool CanGoBack() => CurrentVM is not ChooseRegFormVM;
 
     #endregion
 
@@ -40,7 +52,14 @@ public sealed partial class MainVM : WindowViewModelBase
 
     public MainVM()
     {
+        Title = "ХранительПро";
+
         UserMenuVM = new(this);
+
+        if (App.CurrentUser.IsEmployee())
+            CurrentVM = new RequestListVM(this);
+        else
+            CurrentVM = new ChooseRegFormVM(this);
     }
 
     #endregion

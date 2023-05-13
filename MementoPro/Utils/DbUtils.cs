@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using MementoPro.Models.Database;
-using Models;
+using MementoPro.Database.Models;
 
 namespace MementoPro.Utilities;
 
@@ -17,8 +16,8 @@ public static class DbUtils
             Login = login,
             Password = encryptedPassword
         };
-        Session.Db.Users.Local.Add(newUser);
-        Session.Db.SaveChanges();
+        App.Db.Users.Local.Add(newUser);
+        App.Db.SaveChanges();
         return true;
     }
 
@@ -28,7 +27,7 @@ public static class DbUtils
         if (user == null)
             return false;
 
-        Session.CurrentUser = user;
+        App.CurrentUser = user;
         return true;
     }
 
@@ -39,6 +38,6 @@ public static class DbUtils
     {
         var encryptedPassword = password.Encrypt(64);
 
-        return Session.Db.Users.Local.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
+        return App.Db.Users.Local.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
     }
 }

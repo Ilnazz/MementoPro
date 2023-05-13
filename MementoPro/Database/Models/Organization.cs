@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database.Models;
 
 public partial class Organization
 {

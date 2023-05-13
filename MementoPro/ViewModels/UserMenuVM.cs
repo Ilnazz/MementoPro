@@ -3,14 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using MementoPro.ViewModels.Base;
 using MementoPro.Views;
 using MementoPro.Views.Windows;
-using Models;
 using System.Windows;
 
 namespace MementoPro.ViewModels;
 
 public partial class UserMenuVM : ObservableObject
 {
-    public string Name => Session.CurrentUser!.Name;
+    public string Name => App.CurrentUser!.Name;
 
     [RelayCommand]
     private void LogOut()
@@ -19,7 +18,7 @@ public partial class UserMenuVM : ObservableObject
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
         if (answer == MessageBoxResult.Yes)
         {
-            Session.CurrentUser = null;
+            App.CurrentUser = null;
 
             new WindowView(new AuthVM()).Show();
             _parent.CloseWindow();

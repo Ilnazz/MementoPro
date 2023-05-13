@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using MementoPro.Utilities;
 using MementoPro.ViewModels.Base;
 using MementoPro.Views.Windows;
-using Models;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows;

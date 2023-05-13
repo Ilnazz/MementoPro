@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewmodels:PersonalRegFormVM}"
              Style="{StaticResource UserControlFontStyle}">
@@ -13,7 +14,11 @@
             <Setter Property="Padding" Value="10"/>
         </Style>
 
-        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxInErrorStyle}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource ErrorInTooltipStyle}"/>
+
+        <Style TargetType="DatePicker" BasedOn="{StaticResource ErrorInTooltipStyle}"/>
+
+        <BitmapImage UriSource="/Resources/Images/user_photo_placeholder.png" x:Key="VisitorPhotoPlaceholder"/>
     </UserControl.Resources>
     
     <Grid>
@@ -28,13 +33,6 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-
-        <TextBlock Text="Форма записи на посещение мероприятия"
-                   FontSize="18"
-                   FontWeight="Bold"
-                   Grid.ColumnSpan="2"
-                   HorizontalAlignment="Center"
-                   Margin="0 0 0 5"/>
 
         <Border Background="LightGray"
                 CornerRadius="5"
@@ -55,15 +53,21 @@
                         <TextBlock Text="С *"
                                     Margin="0 0 5 0"
                                     VerticalAlignment="Center"/>
-                        <DatePicker Margin="0 0 5 0"/>
+                        <DatePicker Margin="0 0 5 0"
+                                    SelectedDate="{Binding DesiredStartDate,
+                                                           UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedDateFormat="Short"/>
                         <TextBlock Text="По"
                                     Margin="0 0 5 0"
                                     VerticalAlignment="Center"/>
-                        <DatePicker/>
+                        <DatePicker SelectedDate="{Binding DesiredExpirationDate,
+                                                           UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedDateFormat="Short"/>
                     </StackPanel>
-                    <TextBlock Text="Цель посещения"
+                    <TextBlock Text="Цель посещения: *"
                                Margin="0 0 0 5"/>
-                    <ComboBox/>
+                    <ComboBox ItemsSource="{Binding VisitPurposes}"
+                              SelectedItem="{Binding VisitPurpose}"/>
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -86,12 +90,14 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Подразделение: *"
+                        <TextBlock Text="Подразделение для доступа: *"
                                    Margin="0 0 10 0"
                                    Grid.Column="0"/>
 
                         <ComboBox HorizontalAlignment="Stretch"
-                                  Grid.Column="1"/>
+                                  Grid.Column="1"
+                                  ItemsSource="{Binding Divisions}"
+                                  SelectedItem="{Binding Division}"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -100,12 +106,14 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Сотрудник:"
+                        <TextBlock Text="Сотрудник: *"
                                    Grid.Column="0"
                                    Margin="0 0 10 0"/>
                         
                         <ComboBox Grid.Column="1"
-                                  Margin="0 0 10 0"/>
+                                  Margin="0 0 10 0"
+                                  ItemsSource="{Binding Employees}"
+                                  SelectedItem="{Binding Employee}"/>
 
                         <Image Source="/Resources/Images/user_photo_placeholder.png"
                                Grid.Column="2"
@@ -156,7 +164,10 @@
                                    Margin="0 0 10 5"/>
                         <TextBox Grid.Row="0"
                                  Grid.Column="1"
-                                 Margin="0 0 10 5"/>
+                                 Margin="0 0 10 5"
+                                 MaxLength="50"
+                                 Text="{Binding VisitorLastName,
+                                                UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Имя: *"
                                    Grid.Row="1"
@@ -164,30 +175,43 @@
                                    Margin="0 0 0 5"/>
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
-                                 Margin="0 0 10 5"/>
+                                 Margin="0 0 10 5"
+                                 MaxLength="50"
+                                 Text="{Binding VisitorFirstName,
+                                                UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Отчество: *"
+                        <TextBlock Text="Отчество:"
                                    Grid.Row="2"
                                    Grid.Column="0"/>
                         <TextBox Grid.Row="2"
                                  Grid.Column="1"
-                                 Margin="0 0 10 5"/>
+                                 Margin="0 0 10 5"
+                                 MaxLength="50"
+                                 Text="{Binding VisitorPatronymic,
+                                                UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Телефон:"
                                    Grid.Row="3"
                                    Grid.Column="0"
                                    Margin="0 0 0 5"/>
-                        <TextBox Grid.Row="3"
+                        <toolkit:MaskedTextBox Grid.Row="3"
                                  Grid.Column="1"
-                                   Margin="0 0 10 5"/>
+                                 Margin="0 0 10 5"
+                                 MaxLength="17"
+                                 Mask="+0 (000) 000-0000"
+                                 Text="{Binding VisitorPhone,
+                                                UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="E-mail:"
+                        <TextBlock Text="E-mail: *"
                                    Grid.Row="4"
                                    Grid.Column="0"
                                    Margin="0 0 0 5"/>
                         <TextBox Grid.Row="4"
                                  Grid.Column="1"
-                                   Margin="0 0 10 5"/>
+                                 Margin="0 0 10 5"
+                                 MaxLength="320"
+                                 Text="{Binding VisitorEmail,
+                                                UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
 
                     <!--Second left columns-->
@@ -209,41 +233,54 @@
                                Grid.Row="0"
                                Grid.Column="0"
                                Margin="0 0 0 10"/>
-                        <TextBox Grid.Row="0"
+                        <ComboBox Grid.Row="0"
                              Grid.Column="1"
-                             Margin="0 0 10 10"/>
+                             Margin="0 0 10 10"
+                             ItemsSource="{Binding Organizations}"
+                             SelectedItem="{Binding VisitorOrganization}"/>
 
-                        <TextBlock Text="Примечание:"
+                        <TextBlock Text="Примечание: *"
                                Grid.Row="1"
                                Grid.Column="0"
                                Margin="0 0 0 10"/>
                         <TextBox Grid.Row="1"
                              Grid.Column="1"
-                             Margin="0 0 10 10"/>
+                             Margin="0 0 10 5"
+                             Text="{Binding VisitorNote,
+                                            UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Дата рождения:"
+                        <TextBlock Text="Дата рождения: *"
                                Grid.Row="2"
                                Grid.Column="0"
-                               Margin="0 0 0 10"/>
+                               Margin="0 0 0 10"
+                               VerticalAlignment="Center"/>
                         <DatePicker Grid.Row="2"
                              Grid.Column="1"
-                             Margin="0 0 10 10"/>
+                             Margin="0 0 10 10"
+                             SelectedDate="{Binding VisitorBirthDate,
+                                            UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Серия паспорта:"
+                        <TextBlock Text="Серия паспорта: *"
                                Grid.Row="3"
                                Grid.Column="0"
                                Margin="0 0 0 10"/>
                         <TextBox Grid.Row="3"
                              Grid.Column="1"
-                             Margin="0 0 10 10"/>
+                             Margin="0 0 10 5"
+                             MaxLength="4"
+                             Text="{Binding VisitorPassportSeries,
+                                            UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Номер паспорта:"
+                        <TextBlock Text="Номер паспорта: *"
                                Grid.Row="4"
                                Grid.Column="0"
                                Margin="0 0 10 10"/>
                         <TextBox Grid.Row="4"
                              Grid.Column="1"
-                             Margin="0 0 10 10"/>
+                             Margin="0 0 10 5"
+                             MaxLength="6"
+                             Text="{Binding VisitorPassportNumber,
+                                            UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     
                     <!--Visitor photo-->
@@ -251,16 +288,23 @@
                                 Grid.RowSpan="5"
                                 Grid.Column="2"
                                 VerticalAlignment="Center">
-                        <Border BorderThickness="1"
-                                BorderBrush="Black"
-                                Width="100"
-                                Height="100"
-                                Margin="0 0 0 10">
-                            <Image Source="/Resources/Images/user_photo_placeholder.png"/>
-                        </Border>
-                        <Button Content="Загрузить фото"
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource ButtonStyle}"/>
+                        <Image Width="100"
+                               Height="100"
+                               Margin="0 0 0 10"
+                               Source="{Binding VisitorPhoto, TargetNullValue={StaticResource VisitorPhotoPlaceholder}}"/>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Content="Загрузить фото"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource ButtonStyle}"
+                                    Command="{Binding UploadVisitorPhotoCommand}"
+                                    Margin="0 0 10 0"/>
+                            <Button Content="Очистить фото"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource ButtonStyle}"
+                                    Command="{Binding ClearVisitorPhotoCommand}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -279,20 +323,36 @@
                 </Border>
                 <StackPanel Margin="10">
 
-                    <ItemsControl Margin="0 0 0 10">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal"
-                                            Margin="0 0 0 10">
-                                    <Image Source="/Resources/Images/file.png"/>
-                                    <TextBlock Text="Имя файла"/>
-                                    <Button Content="X"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <DockPanel Margin="0 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Images/file.png"
+                                   Width="25"
+                                   Height="25"
+                                   Margin="0 0 10 0"/>
+                            <TextBlock Text="{Binding VisitorPassportScanFileName}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Style="{StaticResource ButtonStyle}"
+                                Command="{Binding ClearVisitorPassportScanCommand}"
+                                Content="X"
+                                Width="28"
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"/>
+                        <DockPanel.Style>
+                            <Style TargetType="DockPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsVisitorPassportScanAttached}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DockPanel.Style>
+                    </DockPanel>
                     
-                    <Button Style="{StaticResource ButtonStyle}">
+                    <Button Style="{StaticResource ButtonStyle}"
+                            Command="{Binding AttachPassportScanCommand}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left">
@@ -300,7 +360,7 @@
                                        Width="25"
                                        Height="25"
                                        Margin="0 0 5 0"/>
-                                <TextBlock Text="Прикрепить файл"
+                                <TextBlock Text="Прикрепить скан паспорта"
                                            VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button.Content>
@@ -317,9 +377,11 @@
                     Margin="20 0 20 0">
             <Button Content="Очистить форму"
                     Margin="0 0 20 0"
-                    Style="{StaticResource TransparentButtonStyle}"/>
+                    Style="{StaticResource TransparentButtonStyle}"
+                    Command="{Binding ResetFormDataCommand}"/>
             <Button Content="Оформить заявку"
-                    Style="{StaticResource ButtonStyle}"/>
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding SubmitCommand}"/>
         </StackPanel>
 
     </Grid>

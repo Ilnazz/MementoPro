@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database.Models;
 
 public partial class Employee
 {
@@ -13,11 +13,11 @@ public partial class Employee
 
     public string Patronymic { get; set; } = null!;
 
-    public int DivisionId { get; set; }
-
     public int UserId { get; set; }
 
-    public virtual Division Division { get; set; } = null!;
+    public virtual ICollection<Request> Requests { get; } = new List<Request>();
 
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<Division> Divisions { get; } = new List<Division>();
 }

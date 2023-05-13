@@ -16,59 +16,30 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel>
-            <controls:CompanyLogoAndName/>
+        <Grid Margin="0 0 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource ButtonStyle}"
+                    Content="&lt;- Обратно"
+                    HorizontalAlignment="Left"
+                    Grid.Column="0"
+                    Command="{Binding GoBackCommand}"/>
+
+            <TextBlock Text="{Binding CurrentVM.Title}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Grid.Column="1"
+                       FontSize="16"/>
+
             <ContentControl Content="{Binding UserMenuVM}"
-                            HorizontalAlignment="Right"/>
-        </DockPanel>
-
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Visibility="{Binding NavigationButtonsVisibility}">
-            <Border Background="#ececec"
-                    CornerRadius="2.5"
-                    Padding="2.5"
-                    Width="225"
-                    Height="225"
-                    Margin="0 0 50 0">
-                <Button BorderThickness="0"
-                        Background="Transparent"
-                        Cursor="Hand"
-                        Command="{Binding OpenPersonalRegFormCommand}">
-                    <Button.Content>
-                        <StackPanel>
-                            <Image Source="/Resources/Images/person.png"
-                                   Width="50"
-                                   Height="50"/>
-                            <TextBlock Text="Личное посещение"
-                                       FontSize="18"/>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </Border>
-
-            <Border Background="#ececec"
-                    CornerRadius="2.5"
-                    Padding="2.5"
-                    Width="225"
-                    Height="225">
-                <Button BorderThickness="0"
-                        Background="Transparent"
-                        Cursor="Hand"
-                        Command="{Binding OpenGroupRegFormCommand}">
-                    <Button.Content>
-                        <StackPanel>
-                            <Image Source="/Resources/Images/person_group.png"
-                                   Width="50"
-                                   Height="50"/>
-                            <TextBlock Text="Групповое посещение"
-                                       FontSize="18"/>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </Border>
-        </StackPanel>
+                            HorizontalAlignment="Right"
+                            Grid.Column="2"/>
+        </Grid>
 
         <ContentControl Grid.Row="1"
                         Content="{Binding CurrentVM}"/>

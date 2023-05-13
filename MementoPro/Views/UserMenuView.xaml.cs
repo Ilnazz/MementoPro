@@ -8,11 +8,4 @@ public sealed partial class UserMenuView : UserControl
     {
         InitializeComponent();
     }
-
-    private void MenuButton_Click(object sender, RoutedEventArgs e)
-    {
-        MenuBox.Visibility
-            = MenuBox.Visibility == Visibility.Collapsed
-                ? Visibility.Visible : Visibility.Collapsed;
-    }
 }

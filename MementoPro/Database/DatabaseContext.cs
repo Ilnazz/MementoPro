@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using MementoPro.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MementoPro.Models.Database;
+namespace MementoPro.Database;
 
-public partial class MementoProContext : DbContext
+public partial class DatabaseContext : DbContext
 {
-    public MementoProContext()
+    public DatabaseContext()
     {
     }
 
-    public MementoProContext(DbContextOptions<MementoProContext> options)
+    public DatabaseContext(DbContextOptions<DatabaseContext> options)
         : base(options)
     {
     }
@@ -30,6 +31,8 @@ public partial class MementoProContext : DbContext
     public virtual DbSet<RequestType> RequestTypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<VisitPurpose> VisitPurposes { get; set; }
 
     public virtual DbSet<Visitor> Visitors { get; set; }
 
@@ -56,15 +59,27 @@ public partial class MementoProContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.Patronymic).HasMaxLength(50);
 
-            entity.HasOne(d => d.Division).WithMany(p => p.Employees)
-                .HasForeignKey(d => d.DivisionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Employee_Division");
-
             entity.HasOne(d => d.User).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Employee_User");
+
+            entity.HasMany(d => d.Divisions).WithMany(p => p.Employees)
+                .UsingEntity<Dictionary<string, object>>(
+                    "EmployeeDivision",
+                    r => r.HasOne<Division>().WithMany()
+                        .HasForeignKey("DivisionId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_Employee_Division_Division"),
+                    l => l.HasOne<Employee>().WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_Employee_Division_Employee"),
+                    j =>
+                    {
+                        j.HasKey("EmployeeId", "DivisionId");
+                        j.ToTable("Employee_Division");
+                    });
         });
 
         modelBuilder.Entity<Organization>(entity =>
@@ -88,6 +103,11 @@ public partial class MementoProContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Request_Division");
 
+            entity.HasOne(d => d.Employee).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Request_Employee");
+
             entity.HasOne(d => d.RequestStatus).WithMany(p => p.Requests)
                 .HasForeignKey(d => d.RequestStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -101,6 +121,11 @@ public partial class MementoProContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Requests)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK_Request_User");
+
+            entity.HasOne(d => d.VisitPurpose).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.VisitPurposeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Request_VisitPurpose");
 
             entity.HasMany(d => d.Visitors).WithMany(p => p.Requests)
                 .UsingEntity<Dictionary<string, object>>(
@@ -154,6 +179,14 @@ public partial class MementoProContext : DbContext
 
             entity.Property(e => e.Login).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(64);
+        });
+
+        modelBuilder.Entity<VisitPurpose>(entity =>
+        {
+            entity.ToTable("VisitPurpose");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Name).HasMaxLength(150);
         });
 
         modelBuilder.Entity<Visitor>(entity =>

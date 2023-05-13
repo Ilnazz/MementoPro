@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
              Style="{StaticResource UserControlFontStyle}">
-    <StackPanel>
+    <StackPanel Orientation="Horizontal">
         <Button x:Name="MenuButton"
                 Background="Transparent"
                 BorderThickness="0"
-                Cursor="Hand"
-                Click="MenuButton_Click">
+                Margin="0 0 10 0"
+                Cursor="Hand">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Resources/Images/user_photo_placeholder.png"
@@ -22,13 +22,8 @@
                 </StackPanel>
             </Button.Content>
         </Button>
-        <Canvas x:Name="MenuBox"
-                HorizontalAlignment="Right"
-                Visibility="Collapsed">
-            <Button Content="Выйти"
-                    Margin="-55 10 0 0"
-                    Command="{Binding LogOutCommand}"
-                    Style="{StaticResource ButtonStyle}"/>
-        </Canvas>
+        <Button Content="Выйти"
+                Command="{Binding LogOutCommand}"
+                Style="{StaticResource ButtonStyle}"/>
     </StackPanel>
 </UserControl>
