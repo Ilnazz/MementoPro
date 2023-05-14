@@ -2,23 +2,24 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
-             d:DataContext="{d:DesignInstance viewmodels:PersonalRegFormVM}"
-             mc:Ignorable="d">
+             d:DataContext="{d:DesignInstance viewmodels:ChooseRegFormVM}">
     <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
+                Orientation="Horizontal"
+                HorizontalAlignment="Center">
         <Border Background="#ececec"
-                    CornerRadius="2.5"
-                    Padding="2.5"
-                    Width="225"
-                    Height="225"
-                    Margin="0 0 50 0">
+                CornerRadius="2.5"
+                Padding="2.5"
+                Width="225"
+                Height="225"
+                Margin="0 0 50 0">
             <Button BorderThickness="0"
-                        Background="Transparent"
-                        Cursor="Hand"
-                        Command="{Binding MainVM.GoToPersonalRegFormCommand}">
+                    Background="Transparent"
+                    Cursor="Hand"
+                    Command="{Binding Path=(viewmodels:MainVM.Instance).NavigateCommand}"
+                    CommandParameter="{x:Type viewmodels:PersonalRegFormVM}">
                 <Button.Content>
                     <StackPanel>
                         <Image Source="/Resources/Images/person.png"
@@ -32,14 +33,15 @@
         </Border>
 
         <Border Background="#ececec"
-                    CornerRadius="2.5"
-                    Padding="2.5"
-                    Width="225"
-                    Height="225">
+                CornerRadius="2.5"
+                Padding="2.5"
+                Width="225"
+                Height="225">
             <Button BorderThickness="0"
-                        Background="Transparent"
-                        Cursor="Hand"
-                        Command="{Binding MainVM.GoToGroupRegFormCommand}">
+                    Background="Transparent"
+                    Cursor="Hand"
+                    Command="{Binding Path=(viewmodels:MainVM.Instance).NavigateCommand}"
+                    CommandParameter="{x:Type viewmodels:GroupRegFormVM}">
                 <Button.Content>
                     <StackPanel>
                         <Image Source="/Resources/Images/person_group.png"

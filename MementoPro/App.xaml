@@ -25,12 +25,32 @@
                         <views:UserMenuView/>
                     </DataTemplate>
 
+                    <DataTemplate DataType="{x:Type viewmodels:VisitorVM}">
+                        <views:VisitorView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:VisitorDocumentsVM}">
+                        <views:VisitorDocumentsView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:VisitorListVM}">
+                        <views:VisitorListView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:RequestVM}">
+                        <views:RequestView/>
+                    </DataTemplate>
+
                     <DataTemplate DataType="{x:Type viewmodels:ChooseRegFormVM}">
                         <views:ChooseRegFormView/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewmodels:PersonalRegFormVM}">
                         <views:PersonalRegFormView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:GroupRegFormVM}">
+                        <views:GroupRegFormView/>
                     </DataTemplate>
                 </ResourceDictionary>
 

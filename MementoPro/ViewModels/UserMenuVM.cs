@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace MementoPro.ViewModels;
 
-public partial class UserMenuVM : ObservableObject
+public partial class UserMenuVM : ViewModelBase
 {
     public string Name => App.CurrentUser!.Name;
 

@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="MementoPro.Views.VisitorDocumentsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewmodels:VisitorDocumentsVM}"
+             Style="{StaticResource UserControlFontStyle}">
+    
+    <Border Background="LightGray"
+                CornerRadius="5"
+                Grid.Row="1"
+                Margin="0 0 0 10">
+        <StackPanel>
+            <Border Background="Orange"
+                        CornerRadius="5 5 0 0"
+                        Padding="5">
+                <TextBlock Text="Прикрепляемые документы"/>
+            </Border>
+            <StackPanel Margin="10">
+
+                <DockPanel Margin="0 0 0 10">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/file.png"
+                                   Width="25"
+                                   Height="25"
+                                   Margin="0 0 10 0"/>
+                        <TextBlock Text="{Binding PassportScanFileName}"
+                                       VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button Style="{StaticResource ButtonStyle}"
+                                Command="{Binding ClearPassportScanCommand}"
+                                Content="X"
+                                Width="28"
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"/>
+                    <DockPanel.Style>
+                        <Style TargetType="DockPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PassportScanFileName}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DockPanel.Style>
+                </DockPanel>
+
+                <Button Style="{StaticResource ButtonStyle}"
+                            Command="{Binding AttachPassportScanCommand}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Left">
+                            <Image Source="/Resources/Images/upload_file.png"
+                                       Width="25"
+                                       Height="25"
+                                       Margin="0 0 5 0"/>
+                            <TextBlock Text="Прикрепить скан паспорта"
+                                           VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

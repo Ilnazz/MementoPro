@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MementoPro.Utilities;
+using MementoPro.Services;
 using MementoPro.ViewModels.Base;
 using MementoPro.Views.Windows;
 using System.ComponentModel.DataAnnotations;
@@ -42,13 +42,13 @@ public sealed partial class RegVM : WindowViewModelBase
     {
         ValidateAllProperties();
 
-        if (DbUtils.RegisterUser(Login!, Password!) == false)
+        if (AuthRegService.RegisterUser(Login!, Password!) == false)
         {
             MessageBox.Show("Пользователь с таким логином уже зарегистрирован.");
             return;
         }
 
-        DbUtils.AuthorizeUser(Login!, Password!);
+        AuthRegService.AuthorizeUser(Login!, Password!);
 
         new WindowView(new MainVM()).Show();
         CloseWindow();

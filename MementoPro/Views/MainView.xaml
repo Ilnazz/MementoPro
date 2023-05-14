@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
-             xmlns:controls="clr-namespace:MementoPro.Controls"
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
              d:DataContext="{d:DesignInstance viewmodels:MainVM}"
              Width="1000"
-             Height="600">
+             Height="560">
     
     <Grid Margin="{StaticResource AllSidesThickness}">
         <Grid.RowDefinitions>
@@ -26,12 +25,13 @@
             <Button Style="{StaticResource ButtonStyle}"
                     Content="&lt;- Обратно"
                     HorizontalAlignment="Left"
+                    Margin="0 0 10 0"
                     Grid.Column="0"
                     Command="{Binding GoBackCommand}"/>
 
             <TextBlock Text="{Binding CurrentVM.Title}"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Left"
                        FontWeight="Bold"
                        Grid.Column="1"
                        FontSize="16"/>
@@ -41,7 +41,7 @@
                             Grid.Column="2"/>
         </Grid>
 
-        <ContentControl Grid.Row="1"
-                        Content="{Binding CurrentVM}"/>
+        <ContentControl Content="{Binding CurrentVM}"
+                        Grid.Row="1"/>
     </Grid>
 </UserControl>

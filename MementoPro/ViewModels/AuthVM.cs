@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MementoPro.Utilities;
+using MementoPro.Services;
 using MementoPro.ViewModels.Base;
 using MementoPro.Views.Windows;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Windows;
 
 namespace MementoPro.ViewModels;
@@ -36,7 +35,7 @@ public sealed partial class AuthVM : WindowViewModelBase
     {
         ValidateAllProperties();
 
-        if (DbUtils.AuthorizeUser(Login!, Password!) == false)
+        if (AuthRegService.AuthorizeUser(Login!, Password!) == false)
         {
             MessageBox.Show("Неверные логин и/или пароль.");
             return;

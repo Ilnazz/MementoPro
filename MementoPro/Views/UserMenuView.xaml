@@ -6,22 +6,15 @@
              mc:Ignorable="d"
              Style="{StaticResource UserControlFontStyle}">
     <StackPanel Orientation="Horizontal">
-        <Button x:Name="MenuButton"
-                Background="Transparent"
-                BorderThickness="0"
-                Margin="0 0 10 0"
-                Cursor="Hand">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Resources/Images/user_photo_placeholder.png"
-                           Width="25"
-                           Height="25"
-                           Margin="{StaticResource RightThickness}"/>
-                    <TextBlock Text="{Binding Name}"
-                               VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button.Content>
-        </Button>
+        <StackPanel Orientation="Horizontal"
+                    Margin="0 0 10 0">
+            <Image Source="/Resources/Images/user_photo_placeholder.png"
+                   Width="25"
+                   Height="25"
+                   Margin="{StaticResource RightThickness}"/>
+            <TextBlock Text="{Binding Name}"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
         <Button Content="Выйти"
                 Command="{Binding LogOutCommand}"
                 Style="{StaticResource ButtonStyle}"/>

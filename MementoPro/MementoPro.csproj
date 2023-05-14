@@ -10,10 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\excel_file.png" />
     <None Remove="Resources\Images\file.png" />
     <None Remove="Resources\Images\person.png" />
     <None Remove="Resources\Images\person_group.png" />
-    <None Remove="Resources\Images\upload-file.png" />
+    <None Remove="Resources\Images\upload_file.png" />
+    <None Remove="Resources\visitor_list_template.xlsx" />
     <None Remove="Views\PersonalRegFormView.xaml~RF4aad10.TMP" />
   </ItemGroup>
 
@@ -25,6 +27,9 @@
     <Resource Include="Resources\Images\company_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\excel_file.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\file.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -34,11 +39,14 @@
     <Resource Include="Resources\Images\person_group.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Images\upload-file.png">
+    <Resource Include="Resources\Images\upload_file.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\user_photo_placeholder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\visitor_list_template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using MementoPro.Database.Models;
+using MementoPro.Utilities;
 
-namespace MementoPro.Utilities;
+namespace MementoPro.Services;
 
-public static class DbUtils
+public static class AuthRegService
 {
     public static bool RegisterUser(string login, string password)
     {

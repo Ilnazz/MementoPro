@@ -1,18 +1,17 @@
-﻿<UserControl x:Class="MementoPro.Views.PersonalRegFormView"
+﻿<UserControl x:Class="MementoPro.Views.GroupRegFormView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance viewmodels:PersonalRegFormVM}"
+             d:DataContext="{d:DesignInstance viewmodels:GroupRegFormVM}"
              Style="{StaticResource UserControlFontStyle}">
-
     <UserControl.Resources>
         <Style TargetType="TextBox" BasedOn="{StaticResource ErrorInTooltipStyle}"/>
         <Style TargetType="DatePicker" BasedOn="{StaticResource ErrorInTooltipStyle}"/>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,8 +21,8 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl Content="{Binding RequestVM}"
@@ -34,7 +33,11 @@
         <ContentControl Content="{Binding VisitorVM}"
                         Grid.Row="1"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"/>
+                        Margin="0 0 10 0"/>
+
+        <ContentControl Content="{Binding VisitorListVM}"
+                        Grid.Row="1"
+                        Grid.Column="1"/>
 
         <ContentControl Content="{Binding VisitorVM.VisitorDocumentsVM}"
                         Grid.Row="2"

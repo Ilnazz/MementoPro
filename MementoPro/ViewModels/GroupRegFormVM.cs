@@ -4,11 +4,13 @@ using MementoPro.ViewModels.Base;
 
 namespace MementoPro.ViewModels;
 
-public sealed partial class PersonalRegFormVM : ViewModelBase
+public partial class GroupRegFormVM : ViewModelBase
 {
     #region [ Properties ]
 
     public VisitorVM VisitorVM { get; init; }
+
+    public VisitorListVM VisitorListVM { get; init; }
 
     public RequestVM RequestVM { get; init; }
 
@@ -34,7 +36,6 @@ public sealed partial class PersonalRegFormVM : ViewModelBase
     [RelayCommand]
     private void ResetData()
     {
-        VisitorVM.ResetData();
         RequestVM.ResetData();
     }
 
@@ -42,21 +43,22 @@ public sealed partial class PersonalRegFormVM : ViewModelBase
 
     #region [ Setup ]
 
-    public PersonalRegFormVM()
+    public GroupRegFormVM()
     {
-        Title = "Индивидуальная форма регистрации на посещение мероприятия";
+        Title = "Групповая форма регистрации на посещение мероприятия";
 
         var request = new Request
         {
-            RequestTypeId = (int)DataTypes.Enums.RequestType.Personal,
+            RequestTypeId = (int)DataTypes.Enums.RequestType.Group,
             RequestStatusId = (int)DataTypes.Enums.RequestStatus.OnInspection,
         };
 
         var visitor = new Visitor();
         request.Visitors.Add(visitor);
 
-        RequestVM = new RequestVM(request);
-        VisitorVM = new VisitorVM(visitor) { CanEditPhoto = true };
+        RequestVM = new(request);
+        VisitorVM = new(visitor) { CanEditPhoto = false };
+        VisitorListVM = new();
     }
 
     #endregion

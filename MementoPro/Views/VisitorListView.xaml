@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="MementoPro.Views.VisitorListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MementoPro.Views"
+             mc:Ignorable="d"
+             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+             d:DataContext="{d:DesignInstance viewmodels:VisitorListVM}"
+             Style="{StaticResource UserControlFontStyle}"
+             FontSize="12">
+    
+    <Border Background="LightGray"
+            CornerRadius="5"
+            Grid.Row="0"
+            Margin="0 0 0 10">
+        <StackPanel>
+            <Border Background="Orange"
+                    CornerRadius="5 5 0 0"
+                    Padding="5">
+                <TextBlock Text="Список посетителей"
+                           FontSize="14"/>
+            </Border>
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
+                <Button Command="{Binding LoadVisitorListCommand}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="Red"
+                        Margin="0 0 10 0">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Images/excel_file.png"
+                                   Width="25" Height="25"
+                                   Margin="0 0 5 0"/>
+                            <TextBlock Text="Загрузить список"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
+                <Button Command="{Binding DownloadVisitorListTemplateCommand}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="Red">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/Images/excel_file.png"
+                                   Width="25" Height="25"
+                                   Margin="0 0 5 0"/>
+                            <TextBlock Text="Скачать шаблон списка"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            
+            <HeaderedItemsControl
+        </StackPanel>
+    </Border>
+</UserControl>

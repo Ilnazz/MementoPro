@@ -1,7 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MementoPro.ViewModels.Base;
-using System.Windows;
 
 namespace MementoPro.ViewModels;
 
@@ -9,39 +10,35 @@ public sealed partial class MainVM : WindowViewModelBase
 {
     #region [ Properties ]
 
+    public static MainVM Instance { get; private set; } = null!;
+
     public UserMenuVM UserMenuVM { get; set; }
 
     [ObservableProperty]
     private ViewModelBase _currentVM;
-
-    [ObservableProperty]
-    private string _currentViewTitle;
 
     #endregion
 
     #region [ Commands ]
 
     [RelayCommand]
-    private void GoToPersonalRegForm()
+    public void Navigate(Type viewModelType)
     {
-        CurrentVM = new PersonalRegFormVM(this);
+        CurrentVM = (ViewModelBase)Activator.CreateInstance(viewModelType)!;
+
         GoBackCommand.NotifyCanExecuteChanged();
     }
 
-    [RelayCommand]
-    private void GoToGroupRegForm()
-    {
-        //CurrentVM = new PersonalRegFormVM();
-        GoBackCommand.NotifyCanExecuteChanged();
-    }
+
 
     [RelayCommand(CanExecute = nameof(CanGoBack))]
     public void GoBack()
     {
-        if (CurrentVM.RequestClose() == false)
-            return;
+        //if (MessageBox.Show("Несохранённые данные будут потеряны. Продолжить?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.No)
+        //    return;
 
-        CurrentVM = new ChooseRegFormVM(this);
+        CurrentVM = new ChooseRegFormVM();
+
         GoBackCommand.NotifyCanExecuteChanged();
     }
     private bool CanGoBack() => CurrentVM is not ChooseRegFormVM;
@@ -54,12 +51,14 @@ public sealed partial class MainVM : WindowViewModelBase
     {
         Title = "ХранительПро";
 
+        Instance = this;
+        
         UserMenuVM = new(this);
 
-        if (App.CurrentUser.IsEmployee())
-            CurrentVM = new RequestListVM(this);
+        if (App.CurrentUser!.IsEmployee())
+            CurrentVM = new RequestListVM();
         else
-            CurrentVM = new ChooseRegFormVM(this);
+            CurrentVM = new ChooseRegFormVM();
     }
 
     #endregion

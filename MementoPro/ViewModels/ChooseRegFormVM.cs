@@ -1,15 +1,13 @@
-﻿using MementoPro.ViewModels.Base;
+﻿using System;
+using CommunityToolkit.Mvvm.Input;
+using MementoPro.ViewModels.Base;
 
 namespace MementoPro.ViewModels;
 
 public class ChooseRegFormVM : ViewModelBase
 {
-    public MainVM MainVM { get; init; }
-
-    public ChooseRegFormVM(MainVM mainVM)
+    public ChooseRegFormVM()
     {
         Title = "Выбор формы записи";
-
-        MainVM = mainVM;
     }
 }
