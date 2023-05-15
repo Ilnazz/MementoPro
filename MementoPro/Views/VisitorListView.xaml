@@ -3,59 +3,154 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MementoPro.Views"
              mc:Ignorable="d"
              xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
              d:DataContext="{d:DesignInstance viewmodels:VisitorListVM}"
-             Style="{StaticResource UserControlFontStyle}"
-             FontSize="12">
-    
-    <Border Background="LightGray"
-            CornerRadius="5"
-            Grid.Row="0"
-            Margin="0 0 0 10">
-        <StackPanel>
-            <Border Background="Orange"
-                    CornerRadius="5 5 0 0"
-                    Padding="5">
-                <TextBlock Text="Список посетителей"
-                           FontSize="14"/>
-            </Border>
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <Button Command="{Binding LoadVisitorListCommand}"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Foreground="Red"
-                        Margin="0 0 10 0">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Images/excel_file.png"
-                                   Width="25" Height="25"
-                                   Margin="0 0 5 0"/>
-                            <TextBlock Text="Загрузить список"
-                                       VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
+             Style="{StaticResource UserControlFontStyle}">
 
-                <Button Command="{Binding DownloadVisitorListTemplateCommand}"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Foreground="Red">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Images/excel_file.png"
-                                   Width="25" Height="25"
-                                   Margin="0 0 5 0"/>
-                            <TextBlock Text="Скачать шаблон списка"
-                                       VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-            
-            <HeaderedItemsControl
-        </StackPanel>
-    </Border>
+    <Grid>
+        <Border Background="LightGray"
+                CornerRadius="5"
+                Grid.Row="0"
+                Margin="0 0 0 10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Border Background="Orange"
+                        CornerRadius="5 5 0 0"
+                        Padding="5">
+                    <TextBlock Text="Список посетителей"/>
+                </Border>
+
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="1"
+                            Margin="10 10 10 0">
+                    <Button Command="{Binding LoadVisitorListCommand}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Red"
+                            Margin="0 0 10 0">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/excel_file.png"
+                                       Width="25" Height="25"
+                                       Margin="0 0 5 0"/>
+                                <TextBlock Text="Загрузить список"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Command="{Binding DownloadVisitorListTemplateCommand}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Red">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/excel_file.png"
+                                       Width="25" Height="25"
+                                       Margin="0 0 5 0"/>
+                                <TextBlock Text="Скачать шаблон списка"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+                <Grid Grid.Row="2"
+                      Margin="10 10 10 -20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="ФИО" Grid.Column="0"/>
+                    <TextBlock Text="Телефон" Grid.Column="1"/>
+                    <TextBlock Text="Фотография" Grid.Column="2"/>
+
+                    <Separator Grid.Row="1" Grid.ColumnSpan="3" Margin="0 5 10 0"/>
+                </Grid>
+
+                <ScrollViewer Grid.Row="3"
+                              Margin="10 0"
+                              Height="155"
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding VisitorViewModels}"
+                                  Margin="0 0 5 0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0 5 5 0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Visitor.FullName}"
+                                                       Grid.Column="0"
+                                                       TextWrapping="Wrap"
+                                                       MaxWidth="175"
+                                                       Margin="0 0 5 0"/>
+
+                                            <TextBlock Text="{Binding Visitor.Phone}"
+                                                        Grid.Column="1"/>
+
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="✔ Загружена"
+                                                           HorizontalAlignment="Right">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Visitor.Photo}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <Button Content="Загрузить"
+                                                        Command="{Binding UploadPhotoCommand}"
+                                                        VerticalAlignment="Center">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Visitor.Photo}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Separator Grid.Row="1"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

@@ -15,9 +15,9 @@ public partial class Employee
 
     public int UserId { get; set; }
 
+    public virtual ICollection<EmployeeDivision> EmployeeDivisions { get; } = new List<EmployeeDivision>();
+
     public virtual ICollection<Request> Requests { get; } = new List<Request>();
 
     public virtual User User { get; set; } = null!;
-
-    public virtual ICollection<Division> Divisions { get; } = new List<Division>();
 }

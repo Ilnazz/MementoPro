@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System.Linq;
+using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MementoPro.Database.Models;
 using MementoPro.ViewModels.Base;
 
@@ -8,7 +11,8 @@ public partial class GroupRegFormVM : ViewModelBase
 {
     #region [ Properties ]
 
-    public VisitorVM VisitorVM { get; init; }
+    [ObservableProperty]
+    private VisitorVM _visitorVM;
 
     public VisitorListVM VisitorListVM { get; init; }
 
@@ -18,16 +22,43 @@ public partial class GroupRegFormVM : ViewModelBase
 
     #region [ Commands ]
 
+    [RelayCommand]
+    private void AddVisitor()
+    {
+        if (VisitorVM.Validate() == false)
+            return;
+
+        VisitorListVM.VisitorViewModels.Add(VisitorVM);
+        VisitorVM = new VisitorVM(new());
+        VisitorVM.ResetData();
+    }
+
+
+
     [RelayCommand(CanExecute = nameof(CanSubmit))]
     private void Submit()
     {
-        //if (VisitorVM.Validate() == false || RequestVM.Validate() == false)
-        //    return;
+        if (RequestVM.Validate() == false)
+            return;
 
-        //App.Db.Requests.Add(RequestVM.Request);
-        //App.Db.Visitors.Add(VisitorVM.Visitor);
+        if (VisitorListVM.VisitorViewModels.Count < 2)
+        {
+            MessageBox.Show("Необходимо предоставить данные как минимум для двух посетителей", "Ошибка");
+            return;
+        }
 
-        //App.Db.SaveChanges();
+        VisitorListVM.VisitorViewModels
+            .Select(vvm => vvm.Visitor)
+            .ToList()
+            .ForEach((v) =>
+            {
+                App.Db.Visitors.Add(v);
+                RequestVM.Request.Visitors.Add(v);
+            });
+        App.Db.Requests.Add(RequestVM.Request);
+        App.Db.SaveChanges();
+
+        MessageBox.Show("Заявка зарегистрирована", "Сообщение");
 
         MainVM.Instance.GoBack();
     }
@@ -37,6 +68,8 @@ public partial class GroupRegFormVM : ViewModelBase
     private void ResetData()
     {
         RequestVM.ResetData();
+        VisitorVM.ResetData();
+        VisitorListVM.VisitorViewModels.Clear();
     }
 
     #endregion
@@ -49,15 +82,14 @@ public partial class GroupRegFormVM : ViewModelBase
 
         var request = new Request
         {
+            User = App.CurrentUser,
             RequestTypeId = (int)DataTypes.Enums.RequestType.Group,
             RequestStatusId = (int)DataTypes.Enums.RequestStatus.OnInspection,
         };
 
-        var visitor = new Visitor();
-        request.Visitors.Add(visitor);
-
         RequestVM = new(request);
-        VisitorVM = new(visitor) { CanEditPhoto = false };
+        VisitorVM = new(new());
+        VisitorVM.ResetData();
         VisitorListVM = new();
     }
 

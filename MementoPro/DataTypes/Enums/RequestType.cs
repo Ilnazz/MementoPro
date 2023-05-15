@@ -2,6 +2,6 @@
 
 public enum RequestType
 {
-    Personal,
-    Group
+    Personal = 1,
+    Group = 2
 }

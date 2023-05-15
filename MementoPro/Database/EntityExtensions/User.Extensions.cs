@@ -8,11 +8,13 @@ public partial class User
     {
         get
         {
-            if (IsGuest())
-                return "Гость";
+            if (IsEmployee() == false)
+                return Login;
 
             var employee = Employees.First();
-            return $"{employee.LastName} {employee.FirstName} {employee.Patronymic}";
+
+            var prefix = employee.IsGeneralDepartmentEmployee ? "Сотрудник общего отделения" : "Сотрудник";
+            return $"{prefix}: {employee.LastName} {employee.FirstName} {employee.Patronymic}";
         }
     }
 

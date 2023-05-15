@@ -20,6 +20,8 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<EmployeeDivision> EmployeeDivisions { get; set; }
+
     public virtual DbSet<Organization> Organizations { get; set; }
 
     public virtual DbSet<Request> Requests { get; set; }
@@ -54,7 +56,6 @@ public partial class DatabaseContext : DbContext
         {
             entity.ToTable("Employee");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.Patronymic).HasMaxLength(50);
@@ -63,23 +64,23 @@ public partial class DatabaseContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Employee_User");
+        });
 
-            entity.HasMany(d => d.Divisions).WithMany(p => p.Employees)
-                .UsingEntity<Dictionary<string, object>>(
-                    "EmployeeDivision",
-                    r => r.HasOne<Division>().WithMany()
-                        .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_Employee_Division_Division"),
-                    l => l.HasOne<Employee>().WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_Employee_Division_Employee"),
-                    j =>
-                    {
-                        j.HasKey("EmployeeId", "DivisionId");
-                        j.ToTable("Employee_Division");
-                    });
+        modelBuilder.Entity<EmployeeDivision>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Employee_Division_1");
+
+            entity.ToTable("Employee_Division");
+
+            entity.HasOne(d => d.Division).WithMany(p => p.EmployeeDivisions)
+                .HasForeignKey(d => d.DivisionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Employee_Division_Division");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.EmployeeDivisions)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Employee_Division_Employee");
         });
 
         modelBuilder.Entity<Organization>(entity =>
@@ -94,7 +95,6 @@ public partial class DatabaseContext : DbContext
         {
             entity.ToTable("Request");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.DesiredExpirationDate).HasColumnType("date");
             entity.Property(e => e.DesiredStartDate).HasColumnType("date");
 
@@ -149,8 +149,6 @@ public partial class DatabaseContext : DbContext
         {
             entity.ToTable("RequestRejectionReason");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
             entity.HasOne(d => d.Request).WithMany(p => p.RequestRejectionReasons)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -193,12 +191,10 @@ public partial class DatabaseContext : DbContext
         {
             entity.ToTable("Visitor");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.BirthDate).HasColumnType("date");
             entity.Property(e => e.Email).HasMaxLength(320);
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
-            entity.Property(e => e.Login).HasMaxLength(50);
             entity.Property(e => e.PassportNumber)
                 .HasMaxLength(6)
                 .IsUnicode(false)
@@ -207,7 +203,6 @@ public partial class DatabaseContext : DbContext
                 .HasMaxLength(4)
                 .IsUnicode(false)
                 .IsFixedLength();
-            entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Patronymic).HasMaxLength(50);
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)

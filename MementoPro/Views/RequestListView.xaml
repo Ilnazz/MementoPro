@@ -3,24 +3,117 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MementoPro.Views"
-             mc:Ignorable="d">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <ItemsControl ItemsSource="{Binding Requests}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}Срок действия заявки: с {0} по {1}">
-                                    <Binding Path="DesiredStartDate"/>
-                                    <Binding Path="DesiredExpirationDate"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
+             xmlns:viewmodels="clr-namespace:MementoPro.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewmodels:RequestListVM}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Requests}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="5" Margin="0 10 0 0" BorderThickness="0.5" BorderBrush="Black">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+                                    <TextBlock Text="{Binding RequestType, StringFormat='{}Тип: {0}'}"
+                                               Margin="0 0 10 0"/>
+
+                                    <TextBlock Text="{Binding VisitPurpose, StringFormat='{}Цель: {0}'}"
+                                               Margin="0 0 10 0"/>
+
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}Желаемый срок действия заявки: с {0:d} по {1:d}">
+                                                <Binding Path="DesiredStartDate"/>
+                                                <Binding Path="DesiredExpirationDate"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+
+                                    <TextBlock Text="{Binding Division, StringFormat='{}Подразделение для доступа: {0}'}"
+                                               Margin="0 0 10 0"/>
+
+                                    <TextBlock Text="{Binding Employee, StringFormat='{}Сотрудник подразделения: {0}'}"
+                                               Margin="0 0 10 0"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Посетители:"/>
+                                    <ItemsControl ItemsSource="{Binding Visitors}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Padding="2.5" Margin="0 5 0 0" BorderThickness="0.5" BorderBrush="Black">
+                                                    <TextBlock Text="{Binding FullName}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+
+                                <Grid Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Статус: "
+                                               Grid.Column="0"/>
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.RequestStatuses,
+                                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              SelectedItem="{Binding RequestStatus}"
+                                              IsEnabled="{Binding Path=DataContext.IsGeneralDepartmentEmployee, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              x:Name="RequestStatusesComboBox"
+                                              Grid.Column="1"/>
+
+                                    <Button Content="Указать причину отказа"
+                                            Command="{Binding Path=DataContext.AddEditRequestRejectionReasonCommand,
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            Margin="0 10 0 0"
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            CommandParameter="{Binding}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=RequestStatusesComboBox,
+                                                                                   Path=SelectedIndex}" Value="2">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=DataContext.IsGeneralDepartmentEmployee, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button Content="Сохранить"
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Style="{StaticResource ButtonStyle}"
+                Command="{Binding SaveChangesCommand}"/>
+    </Grid>
 </UserControl>

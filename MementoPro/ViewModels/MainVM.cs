@@ -34,8 +34,12 @@ public sealed partial class MainVM : WindowViewModelBase
     [RelayCommand(CanExecute = nameof(CanGoBack))]
     public void GoBack()
     {
-        //if (MessageBox.Show("Несохранённые данные будут потеряны. Продолжить?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.No)
-        //    return;
+        if (App.Db.ChangeTracker.HasChanges()
+            && MessageBox.Show("Несохранённые данные будут потеряны. Продолжить?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.No)
+        {
+            App.Db.RollBack();
+            return;
+        }
 
         CurrentVM = new ChooseRegFormVM();
 
@@ -55,7 +59,7 @@ public sealed partial class MainVM : WindowViewModelBase
         
         UserMenuVM = new(this);
 
-        if (App.CurrentUser!.IsEmployee())
+        if (App.CurrentUser?.IsEmployee() == true)
             CurrentVM = new RequestListVM();
         else
             CurrentVM = new ChooseRegFormVM();

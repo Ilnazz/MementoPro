@@ -2,7 +2,7 @@
 
 public enum RequestStatus
 {
-    OnInspection,
-    Approved,
-    Refused
+    OnInspection = 1,
+    Approved = 2,
+    Refused = 3
 }

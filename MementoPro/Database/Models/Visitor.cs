@@ -23,19 +23,15 @@ public partial class Visitor
 
     public string PassportNumber { get; set; } = null!;
 
-    public string Login { get; set; } = null!;
-
-    public string Password { get; set; } = null!;
-
     public int? OrganizationId { get; set; }
 
-    public string Note { get; set; } = null!;
+    public string? Note { get; set; }
 
     public byte[]? Photo { get; set; }
 
-    public byte[] PassportScan { get; set; } = null!;
+    public byte[]? PassportScan { get; set; }
 
-    public string PassportScanFileName { get; set; } = null!;
+    public string? PassportScanFileName { get; set; }
 
     public virtual Organization? Organization { get; set; }
 

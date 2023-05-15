@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using MementoPro.Database.Models;
 using MementoPro.ViewModels.Base;
 
@@ -19,13 +20,14 @@ public sealed partial class PersonalRegFormVM : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanSubmit))]
     private void Submit()
     {
-        //if (VisitorVM.Validate() == false || RequestVM.Validate() == false)
-        //    return;
+        if (VisitorVM.Validate() == false || RequestVM.Validate() == false)
+            return;
 
-        //App.Db.Requests.Add(RequestVM.Request);
-        //App.Db.Visitors.Add(VisitorVM.Visitor);
+        App.Db.Requests.Add(RequestVM.Request);
+        App.Db.Visitors.Add(VisitorVM.Visitor);
+        App.Db.SaveChanges();
 
-        //App.Db.SaveChanges();
+        MessageBox.Show("Заявка зарегистрирована", "Сообщение");
 
         MainVM.Instance.GoBack();
     }
@@ -48,6 +50,7 @@ public sealed partial class PersonalRegFormVM : ViewModelBase
 
         var request = new Request
         {
+            User = App.CurrentUser,
             RequestTypeId = (int)DataTypes.Enums.RequestType.Personal,
             RequestStatusId = (int)DataTypes.Enums.RequestStatus.OnInspection,
         };
@@ -57,6 +60,7 @@ public sealed partial class PersonalRegFormVM : ViewModelBase
 
         RequestVM = new RequestVM(request);
         VisitorVM = new VisitorVM(visitor) { CanEditPhoto = true };
+        VisitorVM.ResetData();
     }
 
     #endregion

@@ -9,22 +9,24 @@ namespace MementoPro.ViewModels;
 
 public partial class UserMenuVM : ViewModelBase
 {
-    public string Name => App.CurrentUser!.Name;
+    public string Name => App.CurrentUser?.Name ?? "Гость";
 
     [RelayCommand]
-    private void LogOut()
+    private void DoLogin()
     {
-        var answer = MessageBox.Show("Выйти из системы?", "Вопрос",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
-        if (answer == MessageBoxResult.Yes)
+        if (App.Db.ChangeTracker.HasChanges()
+            && MessageBox.Show("Несохранённые данные будут потеряны. Продолжить?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.No)
         {
-            App.CurrentUser = null;
-
-            new WindowView(new AuthVM()).Show();
-            _parent.CloseWindow();
+            App.Db.RollBack();
+            return;
         }
+
+        App.CurrentUser = null;
+
+        new WindowView(new AuthVM()).Show();
+        _parent.CloseWindow();
     }
-    
+
     private WindowViewModelBase _parent = null!;
     public UserMenuVM(WindowViewModelBase parent)
         => _parent = parent;

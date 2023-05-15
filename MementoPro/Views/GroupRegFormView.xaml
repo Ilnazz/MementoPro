@@ -15,14 +15,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl Content="{Binding RequestVM}"
@@ -30,34 +28,60 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="2"/>
 
-        <ContentControl Content="{Binding VisitorVM}"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="0 0 10 0"/>
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Margin="0 0 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <ContentControl Content="{Binding VisitorVM}"
+                            Grid.Row="0"/>
 
-        <ContentControl Content="{Binding VisitorListVM}"
-                        Grid.Row="1"
-                        Grid.Column="1"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <ContentControl Content="{Binding VisitorVM.VisitorDocumentsVM}"
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Height="130"/>
+                <ContentControl Content="{Binding VisitorVM.VisitorDocumentsVM}"
+                                Margin="0 0 10 0"/>
 
-        <StackPanel Grid.Row="2"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Margin="20 0 20 0">
-            <Button Content="Очистить форму"
-                    Margin="0 0 20 0"
-                    Style="{StaticResource TransparentButtonStyle}"
-                    Command="{Binding ResetDataCommand}"/>
-            <Button Content="Оформить заявку"
-                    Style="{StaticResource ButtonStyle}"
-                    Command="{Binding SubmitCommand}"/>
-        </StackPanel>
+                <Button Content="Добавить посетителя"
+                        Margin="0 0 20 0"
+                        Grid.Column="1"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource ButtonStyle}"
+                        Command="{Binding AddVisitorCommand}"/>
+            </Grid>
+            
+        </Grid>
 
+        <Grid Grid.Row="1"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ContentControl Content="{Binding VisitorListVM}"
+                            Grid.Row="0"/>
+
+            <StackPanel Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Margin="20 0 20 0">
+                <Button Content="Очистить форму"
+                        Margin="0 0 20 0"
+                        Style="{StaticResource TransparentButtonStyle}"
+                        Command="{Binding ResetDataCommand}"/>
+                <Button Content="Оформить заявку"
+                        Style="{StaticResource ButtonStyle}"
+                        Command="{Binding SubmitCommand}"/>
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </UserControl>

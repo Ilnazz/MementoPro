@@ -66,10 +66,11 @@ public class RequestVM : ViewModelBase
             Request.Division = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(Employees));
+            Employee = Employees.First();
         }
     }
 
-    public IEnumerable<Employee> Employees => Division.Employees;
+    public IEnumerable<Employee> Employees => Division.EmployeeDivisions.Select(ed => ed.Employee).ToList();
 
     public Employee Employee
     {
@@ -127,7 +128,7 @@ public class RequestVM : ViewModelBase
     public bool Validate()
     {
         ValidateAllProperties();
-        return HasErrors;
+        return HasErrors == false;
     }
 
     #endregion

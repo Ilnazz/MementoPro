@@ -17,14 +17,14 @@ public sealed partial class AuthVM : WindowViewModelBase
     [MinLength(8, ErrorMessage = "Не менее 8 символов.")]
     [NotifyDataErrorInfo]
     [ObservableProperty]
-    public string? _login = "_Mazepa_";
+    public string? _login;
 
     [NotifyCanExecuteChangedFor(nameof(AuthorizeCommand))]
     [Required(ErrorMessage = "Обязательное поле.")]
     [MinLength(8, ErrorMessage = "Не менее 8 символов.")]
     [NotifyDataErrorInfo]
     [ObservableProperty]
-    public string? _password = "Mazepa123!";
+    public string? _password;
 
     #endregion
 

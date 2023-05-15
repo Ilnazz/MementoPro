@@ -41,6 +41,14 @@
                         <views:RequestView/>
                     </DataTemplate>
 
+                    <DataTemplate DataType="{x:Type viewmodels:RequestListVM}">
+                        <views:RequestListView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:AddEditRequestRejectionReasonVM}">
+                        <views:AddEditRequestRejectionReasonView/>
+                    </DataTemplate>
+                    
                     <DataTemplate DataType="{x:Type viewmodels:ChooseRegFormVM}">
                         <views:ChooseRegFormView/>
                     </DataTemplate>

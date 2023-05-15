@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MementoPro.Database.Models;
@@ -23,6 +24,7 @@ public partial class VisitorVM : ViewModelBase
     [ObservableProperty]
     private bool _canEditPhoto;
 
+    [RegularExpression("[a-zA-Zа-яА-Я]*", ErrorMessage = "Должно содержать только буквы")]
     [Required(ErrorMessage = "Необходимо ввести имя")]
     public string FirstName
     {
@@ -36,6 +38,7 @@ public partial class VisitorVM : ViewModelBase
         }
     }
 
+    [RegularExpression("[a-zA-Zа-яА-Я]*", ErrorMessage = "Должно содержать только буквы")]
     [Required(ErrorMessage = "Необходимо ввести фамилию")]
     public string LastName
     {
@@ -49,16 +52,20 @@ public partial class VisitorVM : ViewModelBase
         }
     }
 
+    [RegularExpression("[a-zA-Zа-яА-Я]*", ErrorMessage = "Должно содержать только буквы")]
     public string? Patronymic
     {
         get => Visitor.Patronymic;
         set
         {
+            ValidateProperty(value);
+
             Visitor.Patronymic = value;
             OnPropertyChanged();
         }
     }
 
+    [CustomValidation(typeof(VisitorVM), nameof(ValidatePhone))]
     public string? Phone
     {
         get => Visitor.Phone;
@@ -99,8 +106,7 @@ public partial class VisitorVM : ViewModelBase
         }
     }
 
-    [Required(ErrorMessage = "Необходимо ввести примечание")]
-    public string Note
+    public string? Note
     {
         get => Visitor.Note;
         set
@@ -156,7 +162,6 @@ public partial class VisitorVM : ViewModelBase
         }
     }
 
-    [CustomValidation(typeof(VisitorVM), nameof(ValidatePhone))]
     public byte[]? Photo
     {
         get => Visitor.Photo;
@@ -244,13 +249,15 @@ public partial class VisitorVM : ViewModelBase
         ClearPhoto();
 
         ClearErrors();
+
+        VisitorDocumentsVM.ResetData();
     }
 
     public bool Validate()
     {
         ValidateAllProperties();
 
-        return HasErrors && VisitorDocumentsVM.Validate();
+        return VisitorDocumentsVM.Validate() && (HasErrors == false);
     }
 
     #endregion
@@ -260,10 +267,7 @@ public partial class VisitorVM : ViewModelBase
     public VisitorVM(Visitor visitor)
     {
         Visitor = visitor;
-
-        VisitorDocumentsVM = new VisitorDocumentsVM(Visitor);
-
-        ResetData();
+        VisitorDocumentsVM = new VisitorDocumentsVM(visitor);
     }
 
     #endregion

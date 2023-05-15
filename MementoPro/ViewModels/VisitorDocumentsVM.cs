@@ -11,7 +11,7 @@ public partial class VisitorDocumentsVM : ViewModelBase
 {
     #region [ Properties ]
 
-    public string PassportScanFileName
+    public string? PassportScanFileName
     {
         get => _visitor.PassportScanFileName;
         set
@@ -69,7 +69,7 @@ public partial class VisitorDocumentsVM : ViewModelBase
     {
         if (_visitor.PassportScan == null)
         {
-            MessageBox.Show("Необходимо прикрепить скан паспорта");
+            MessageBox.Show("Необходимо прикрепить скан паспорта", "Ошибка");
             return false;
         }
 
